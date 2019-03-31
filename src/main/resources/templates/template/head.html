@@ -1,0 +1,13 @@
+<head th:fragment="content" xmlns:th="http://www.w3.org/1999/xhtml">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>[[${title}]]</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/webjars/bootstrap/4.0.0/css/bootstrap.css}" href="asserts/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:if="${#bools.isTrue(isDashboard)}" th:href="@{/asserts/css/dashboard.css}" rel="stylesheet" />
+    <link th:if="${#bools.isTrue(isLogin)}" th:href="@{/asserts/css/signin.css}" rel="stylesheet" />
+</head>
