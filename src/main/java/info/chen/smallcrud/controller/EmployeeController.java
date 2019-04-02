@@ -4,16 +4,22 @@ import info.chen.smallcrud.dao.DepartmentDao;
 import info.chen.smallcrud.dao.EmployeeDao;
 import info.chen.smallcrud.model.Department;
 import info.chen.smallcrud.model.Employee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.Collection;
 import java.util.Map;
 
 @Controller
 public class EmployeeController {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -22,7 +28,7 @@ public class EmployeeController {
     private DepartmentDao departmentDao;
 
     @GetMapping("/emps")
-    public String show(Map<String, Object> map) {
+    public String listHome(Map<String, Object> map) {
 
         Collection<Employee> employees = employeeDao.getAll();
 
@@ -30,7 +36,7 @@ public class EmployeeController {
         return "emp/list";
     }
 
-    @GetMapping("emp")
+    @GetMapping("/emp")
     public String addHome(Map<String, Object> map) {
 
         Collection<Department> departments = departmentDao.getDepartments();
@@ -38,11 +44,34 @@ public class EmployeeController {
         return "emp/add";
     }
 
-    @PostMapping("emp")
+    @PostMapping("/emp")
     public String addEmployee(Employee employee) {
+        logger.info("save employee: {}", employee);
+        employeeDao.save(employee);
 
-        System.out.println(employee);
+        return "redirect:/emps";
+    }
 
-        return "emp/list";
+    @GetMapping("/emp/{empID}")
+    public String updateHome(@PathVariable("empID") Integer empID, Map<String, Object> map) {
+
+        Employee employee = employeeDao.get(empID);
+        map.put("employee", employee);
+
+        Collection<Department> departments = departmentDao.getDepartments();
+        map.put("departments", departments);
+
+        return "emp/add";
+    }
+
+    @PutMapping("/emp")
+    public String updateEmployee(Employee employee, Integer empID) {
+
+        employee.setId(empID);
+        employeeDao.save(employee);
+
+        logger.info("Update employee: {}" , employee);
+
+        return "redirect:/emps";
     }
 }

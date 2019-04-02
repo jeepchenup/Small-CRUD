@@ -17,22 +17,22 @@
 					<form th:action="@{/emp}" th:method="post">
 						<div class="form-group">
 							<label for="lastname">Last Name</label>
-							<input name="lastname" type="text" class="form-control" id="lastname" placeholder="Please fill your last name.">
+							<input th:value="${employee} != null ? ${employee.lastName}" name="lastName" type="text" class="form-control" id="lastname" placeholder="Please fill your last name.">
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label>
-							<input name="email" type="email" class="form-control" id="email" placeholder="Please fill your email address.">
+							<input th:value="${employee} != null ? ${employee.email}" name="email" type="email" class="form-control" id="email" placeholder="Please fill your email address.">
 						</div>
 						<div class="form-group">
 							<label>Gender</label>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="gender" id="exampleRadios1" value="1" checked>
+								<input class="form-check-input" type="radio" name="gender" id="exampleRadios1" value="1" th:checked="${employee} != null ? ${employee.gender == 1}">
 								<label class="form-check-label" for="exampleRadios1">
 									Male
 								</label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="radio" name="gender" id="exampleRadios2" value="0">
+								<input class="form-check-input" type="radio" name="gender" id="exampleRadios2" value="0" th:checked="${employee} != null ? ${employee.gender == 0}">
 								<label class="form-check-label" for="exampleRadios2">
 									Female
 								</label>
@@ -41,17 +41,20 @@
 						<div class="form-group">
 							<label for="departmentSelect">Department</label>
 							<select class="form-control" id="departmentSelect" name="department.id">
-								<option th:each="department:${departments}" th:text="${department.departmentName}"></option>
+								<option th:selected="${employee} != null ? ${employee.department.id == department.id}" th:each="department:${departments}" th:value="${department.id}" th:text="${department.departmentName}"></option>
 							</select>
 						</div>
 						<div class="form-group">
 							<label for="birth">Birth</label>
-							<input name="birth" type="text" class="form-control" id="birth" placeholder="Please fill your birthday.">
+							<input th:value="${employee} != null ? ${#dates.format(employee.birth, 'yyyy-MM-dd')}" name="birth" type="text" class="form-control" id="birth" placeholder="Please fill your birthday.">
 						</div>
 						<div class="form-group">
-							<button type="submit" class="btn btn-sm btn-success">Submit</button>
+							<button type="submit" class="btn btn-sm btn-success" th:text="${employee != null} ? 'Update' : 'Submit'"></button>
 							<button type="reset" class="btn btn-sm btn-danger">Reset</button>
 						</div>
+
+						<input th:if="${employee} != null" type="hidden" name="_method" value="put"/>
+						<input th:if="${employee} != null" type="hidden" name="empID" th:value="${employee.id}"/>
 					</form>
 				</main>
 			</div>
