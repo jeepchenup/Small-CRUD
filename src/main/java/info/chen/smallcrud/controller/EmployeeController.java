@@ -8,10 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Map;
@@ -72,6 +69,14 @@ public class EmployeeController {
 
         logger.info("Update employee: {}" , employee);
 
+        return "redirect:/emps";
+    }
+
+    @DeleteMapping("/emp/{empID}")
+    public String deleteEmployee(@PathVariable("empID") Integer empID) {
+
+        employeeDao.delete(empID);
+        logger.info("Delete employee : {}", empID);
         return "redirect:/emps";
     }
 }
