@@ -2,6 +2,7 @@ package info.chen.smallcrud.controller;
 
 import info.chen.smallcrud.dao.DepartmentDao;
 import info.chen.smallcrud.dao.EmployeeDao;
+import info.chen.smallcrud.exception.UserNotFoundException;
 import info.chen.smallcrud.model.Department;
 import info.chen.smallcrud.model.Employee;
 import org.slf4j.Logger;
@@ -52,6 +53,9 @@ public class EmployeeController {
     @GetMapping("/emp/{empID}")
     public String updateHome(@PathVariable("empID") Integer empID, Map<String, Object> map) {
 
+        if(empID == 111) {
+            throw new UserNotFoundException(empID + " not found.");
+        }
         Employee employee = employeeDao.get(empID);
         map.put("employee", employee);
 

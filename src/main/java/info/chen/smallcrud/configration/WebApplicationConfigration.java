@@ -21,9 +21,9 @@ public class WebApplicationConfigration implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new LoginInterceptor())
+       /* registry.addInterceptor(new LoginInterceptor())
                  .addPathPatterns("/**")
-                 .excludePathPatterns("/", "/index", "/index.*", "/login", "/asserts/**", "/webjars/**");
+                 .excludePathPatterns("/", "/index", "/index.*", "/login", "/asserts/**", "/webjars/**");*/
     }
 
     @Bean
